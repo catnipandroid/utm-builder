@@ -53,4 +53,8 @@ jobs:
             echo "⚠️ UTM Builder.app not found, skipping zip step."
           fi
 
-      - name: Upload art
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: utm_builder_${{ runner.os }}
+          path: upload/*.zip
