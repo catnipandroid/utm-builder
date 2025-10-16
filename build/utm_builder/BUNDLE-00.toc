@@ -1,0 +1,3 @@
+([('utm_builder',
+   '/Users/nhncommerce/Desktop/utm_generator/dist/utm_builder',
+   'EXECUTABLE')],)
