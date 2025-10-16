@@ -376,7 +376,7 @@ class App(tk.Tk):
                 f.write("url\n")
                 for u in self.history:
                     # quote for CSV-safe with simple replace (no csv module needed)
-                    f.write(f"\"{u.replace('\"', '\"\"')}\"\n")
+                    f.write('"{}"\n'.format(u.replace('"', '""')))
             messagebox.showinfo("Exported", f"History exported to:\n{path}")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to export history:\n{e}")
