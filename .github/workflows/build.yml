@@ -42,7 +42,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path upload | Out-Null
           Compress-Archive -Path "dist\UTM Builder.exe" -DestinationPath "upload\utm_builder_windows.zip"
 
-      - name: Package artifact (macOS, zip .app)
+      - name: Package artifact (macOS, ditto)
         if: runner.os == 'macOS'
         run: |
           mkdir -p upload
@@ -50,11 +50,7 @@ jobs:
           if [ -d "$APP_PATH" ]; then
             ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "upload/utm_builder_mac.zip"
           else
-            zip -j "upload/utm_builder_mac.zip" "dist/UTM Builder" || true
+            echo "⚠️ UTM Builder.app not found, skipping zip step."
           fi
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: utm_builder_${{ runner.os }}
-          path: upload/*.zip
+      - name: Upload art
