@@ -24,7 +24,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyinstaller
 
-      # --- Build steps (OS별) ---
       - name: Build (Windows, onefile exe)
         if: runner.os == 'Windows'
         run: |
@@ -34,15 +33,14 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           pyinstaller --noconfirm --name "UTM Builder" --windowed utm_builder.py
-          # 결과물: dist/UTM\ Builder.app
+          # 결과물: dist/UTM Builder.app
 
-      # --- Package steps (OS별) ---
       - name: Package artifact (Windows, PowerShell)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path upload | Out-Null
-          Compress-Archive -Path "dist/UTM Builder.exe" -DestinationPath "upload/utm_builder_windows.zip"
+          Compress-Archive -Path "dist\UTM Builder.exe" -DestinationPath "upload\utm_builder_windows.zip"
 
       - name: Package artifact (macOS, zip .app)
         if: runner.os == 'macOS'
@@ -50,10 +48,8 @@ jobs:
           mkdir -p upload
           APP_PATH="dist/UTM Builder.app"
           if [ -d "$APP_PATH" ]; then
-            # .app 번들을 안전하게 압축 (리소스 유지)
             ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "upload/utm_builder_mac.zip"
           else
-            # (혹시 onefile 바이너리일 때 대비)
             zip -j "upload/utm_builder_mac.zip" "dist/UTM Builder" || true
           fi
 
